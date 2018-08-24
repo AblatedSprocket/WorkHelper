@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace WorkHelper.Models
 {
-    class Work : ObservableObject
+    public class Work : ObservableObject
     {
         private Story _story = new Story();
         private ObservableCollection<Task> _activeTasks = new ObservableCollection<Task>();
@@ -14,17 +14,17 @@ namespace WorkHelper.Models
             get { return _story; }
             set { OnPropertyChanged(ref _story, value); }
         }
-        ObservableCollection<Task> ActiveTasks
+        public ObservableCollection<Task> ActiveTasks
         {
             get { return _activeTasks; }
             set { OnPropertyChanged(ref _activeTasks, value); }
         }
-        ObservableCollection<Task> InProgressTasks
+        public ObservableCollection<Task> InProgressTasks
         {
             get { return _inProgressTasks; }
             set { OnPropertyChanged(ref _inProgressTasks, value); }
         }
-        ObservableCollection<Task> CompletedTasks
+        public ObservableCollection<Task> CompletedTasks
         {
             get { return _completedTasks; }
             set { OnPropertyChanged(ref _completedTasks, value); }

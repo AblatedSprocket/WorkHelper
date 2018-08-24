@@ -1,6 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using WorkHelper.Models;
 
 namespace WorkHelper.Controls
 {
@@ -35,9 +39,45 @@ namespace WorkHelper.Controls
     /// </summary>
     public class WorkItemControl : Control
     {
+        //private Hyperlink _headerLink;
+        //private RoutedEventHandler initialEvent;
+
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(WorkItemControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(WorkItemControl), new PropertyMetadata(null));
         public static readonly DependencyProperty AccentProperty = DependencyProperty.Register("Accent", typeof(Brush), typeof(WorkItemControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(WorkItemControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsParentMeasure));
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(WorkItemControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+
+        //public event RoutedEventHandler Click
+        //{
+        //    add
+        //    {
+        //        initialEvent = value;
+        //        if (_headerLink != null && value != null)
+        //        {
+        //            _headerLink.Click += value;
+        //        }
+        //    }
+        //    remove
+        //    {
+        //        initialEvent = null;
+        //        if (_headerLink != null && value != null)
+        //        {
+        //            _headerLink.Click -= value;
+        //        }
+        //    }
+        //}
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
+        public object CommandParameter
+        {
+            get { return GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
 
         public Brush Accent
         {
@@ -57,6 +97,22 @@ namespace WorkHelper.Controls
         static WorkItemControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WorkItemControl), new FrameworkPropertyMetadata(typeof(WorkItemControl)));
+        }
+        public override void OnApplyTemplate()
+        {
+            object headerLink = GetTemplateChild("HeaderLink");
+            if (headerLink is Hyperlink link)
+            {
+                link.Click += OnClick;
+            }
+            base.OnApplyTemplate();
+        }
+        private void OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Command != null && Command.CanExecute(CommandParameter))
+            {
+                Command.Execute(CommandParameter);
+            }
         }
     }
 }

@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC6CA187-056A-4F9F-AE92-52CBF7DAA7BC}</ProjectGuid>
+    <ProjectGuid>{A0F05B65-5B18-4E01-AF16-84E3D5B25F5D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WorkHelper</RootNamespace>
-    <AssemblyName>WorkHelper</AssemblyName>
+    <RootNamespace>WorkHelper.UI.Test</RootNamespace>
+    <AssemblyName>WorkHelper.UI.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,17 +59,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MainWindowModel.cs" />
-    <Compile Include="Models\Story.cs" />
-    <Compile Include="Models\Task.cs" />
-    <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\Work.cs" />
-    <Compile Include="TaskBoard\TaskBoardViewModel.cs" />
-    <Compile Include="TaskBoard\TaskBoardView.xaml.cs">
-      <DependentUpon>TaskBoardView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TaskBoard\TaskMovedEventArgs.cs" />
-    <Compile Include="Utilities\DragAdorner.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,19 +67,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\WorkItemControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TaskBoard\TaskBoardView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -116,6 +97,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkHelper\WorkHelper.csproj">
+      <Project>{bc6ca187-056a-4f9f-ae92-52cbf7daa7bc}</Project>
+      <Name>WorkHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

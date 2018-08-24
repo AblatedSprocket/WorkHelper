@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CustomPresentationControls.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,6 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using WorkHelper.Controls;
+using WorkHelper.Models;
 using WorkHelper.Utilities;
 
 namespace WorkHelper.TaskBoard
@@ -17,30 +21,40 @@ namespace WorkHelper.TaskBoard
     {
         private Point _startPoint;
         private DragAdorner _adorner;
+        
         public TaskBoardView()
         {
             InitializeComponent();
         }
         private void Panel_Drop(object sender, DragEventArgs e)
         {
-            if (!e.Handled && sender is Panel destination && e.Data.GetData("Object") is FrameworkElement element && VisualTreeHelper.GetParent(element) is Panel origin)
+            if (!e.Handled && sender is Panel target && e.Data.GetData("Object") is FrameworkElement element && element.FindParent<StackPanel>() is StackPanel source)
             {
-                double cursorY = e.GetPosition(destination).Y;
+                string sourceStory = source.FindNearestAncestorTag() as string;
+                string sourceCollection = source.Tag as string;
+                string destinationStory = target.FindNearestAncestorTag() as string;
+                string destinationCollection = target.Tag as string;
+                double cursorY = e.GetPosition(target).Y;
                 double totalElementHeight = 0;
-                int elementCount = 0;
-                foreach (FrameworkElement child in destination.Children)
+                int elementIndex = 0;
+                foreach (FrameworkElement child in target.Children)
                 {
-                    if (totalElementHeight + child.ActualHeight/2+child.Margin.Top > cursorY)
+                    if (totalElementHeight + child.ActualHeight / 2 + child.Margin.Top > cursorY)
                     {
-                        destination.Children.Insert(elementCount, element);
-                        return;
+                        break;
                     }
                     totalElementHeight += child.ActualHeight + child.Margin.Top + child.Margin.Bottom;
-                    elementCount++;
+                    elementIndex++;
                 }
-                origin.Children.Remove(element);
-                destination.Children.Add(element);
+                if (DataContext is ITaskBoard viewModel)
+                {
+                    viewModel.MoveWorkItem(element.DataContext, sourceCollection, destinationCollection, sourceStory, destinationStory, elementIndex);
+                }
             }
+        }
+        private void TaskItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         private void TaskItem_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
@@ -71,7 +85,11 @@ namespace WorkHelper.TaskBoard
                 _adorner = new DragAdorner(workItem, currentPosition);
                 AdornerLayer.GetAdornerLayer(workItem).Add(_adorner);
                 DragDrop.DoDragDrop(source, data, DragDropEffects.Move);
-                AdornerLayer.GetAdornerLayer(workItem).Remove(_adorner);
+                AdornerLayer layer = AdornerLayer.GetAdornerLayer(workItem);
+                if (layer != null)
+                {
+                    layer.Remove(_adorner);
+                }
                 _startPoint = currentPosition;
             }
         }

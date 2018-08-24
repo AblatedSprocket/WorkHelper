@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkHelper", "WorkHelper\WorkHelper.csproj", "{BC6CA187-056A-4F9F-AE92-52CBF7DAA7BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkHelper.UI.Test", "WorkHelper.UI.Test\WorkHelper.UI.Test.csproj", "{A0F05B65-5B18-4E01-AF16-84E3D5B25F5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BC6CA187-056A-4F9F-AE92-52CBF7DAA7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC6CA187-056A-4F9F-AE92-52CBF7DAA7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC6CA187-056A-4F9F-AE92-52CBF7DAA7BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0F05B65-5B18-4E01-AF16-84E3D5B25F5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0F05B65-5B18-4E01-AF16-84E3D5B25F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0F05B65-5B18-4E01-AF16-84E3D5B25F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0F05B65-5B18-4E01-AF16-84E3D5B25F5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

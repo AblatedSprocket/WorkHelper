@@ -21,10 +21,24 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
+                                <TextBlock>
+                                </TextBlock>
                                 <TextBlock FontWeight="Bold"
                                            Margin="8,5,0,0"
-                                           Text="{TemplateBinding Header}"
-                                           TextWrapping="Wrap"/>
+                                           TextWrapping="Wrap">
+                                    <TextBlock.InputBindings>
+                                    </TextBlock.InputBindings>
+                                    <Hyperlink x:Name="HeaderLink">
+                                        <!--<Hyperlink.InputBindings>
+                                        <MouseBinding Gesture="LeftClick"
+                                                      Command="{TemplateBinding Command}"
+                                                      CommandParameter="{Binding CommandParameter}"/>
+                                        </Hyperlink.InputBindings>-->
+                                        <Hyperlink.Inlines>
+                                            <Run Text="{TemplateBinding Header}"/>
+                                        </Hyperlink.Inlines>
+                                    </Hyperlink>
+                                </TextBlock>
                                 <TextBlock Grid.Row="1"
                                            Margin="5,0,8,0"
                                            Text="{TemplateBinding Text}"

@@ -5,9 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WorkHelper.TaskBoard"
              xmlns:control="clr-namespace:WorkHelper.Controls"
+             xmlns:control2="clr-namespace:CustomPresentationControls;assembly=CustomPresentationControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <control2:BindingProxy x:Key="BindingProxy"
+                               Data="{Binding}"/>
         <Style TargetType="{x:Type control:WorkItemControl}">
             <Setter Property="Width" Value="120"/>
             <Setter Property="Background" Value="White"/>
@@ -15,6 +18,10 @@
             <EventSetter Event="MouseDown" Handler="TaskItem_MouseDown"/>
             <EventSetter Event="MouseMove" Handler="TaskItem_MouseMove"/>
             <EventSetter Event="MouseUp" Handler="TaskItem_MouseUp"/>
+        </Style>
+        <Style TargetType="{x:Type StackPanel}"
+               BasedOn="{StaticResource {x:Type StackPanel}}">
+            <Setter Property="Background" Value="LightGray"/>
         </Style>
         <Style x:Key="Story"
                TargetType="{x:Type control:WorkItemControl}"
@@ -29,63 +36,75 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ItemsControl ItemsSource="{Binding Work}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel/>
+                    <StackPanel Height="400"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Tag="{Binding Story.Name}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel DataContext="Story">
+                        <StackPanel Background="LightGray"
+                                  DataContext="{Binding Story}">
                             <control:WorkItemControl Header="{Binding Name}"
                                                      Style="{StaticResource Story}"
                                                      Text="{Binding Description}"/>
                         </StackPanel>
                         <ItemsControl Grid.Column="1"
-                                      ItemsSource="{Binding ActiveTasks}">
+                                      ItemsSource="{Binding ActiveTasks}"
+                                      Height="400">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel AllowDrop="True"
-                                                Drop="Panel_Drop"/>
+                                                Background="LightGray"
+                                                Drop="Panel_Drop"
+                                                Tag="Active"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <control:WorkItemControl Header="{Binding Name}"
                                                              Style="{StaticResource Task}"
-                                                             Text="{Binding Description}"/>
+                                                             Text="{Binding Description}"
+                                                             Command="{Binding Path=OpenTaskCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                             CommandParameter="{Binding}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <ItemsControl Grid.Column="2"
-                                      ItemsSource="{Binding InProgressTasks}">
+                                      ItemsSource="{Binding InProgressTasks}"
+                                      Height="400">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel AllowDrop="True"
-                                                Drop="Panel_Drop"/>
+                                                Background="LightGray"
+                                                Drop="Panel_Drop"
+                                                Tag="InProgress"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <control:WorkItemControl Header="{Binding Name}"
                                                              Style="{StaticResource Task}"
-                                                             Text="{Binding Description}"/>
+                                                             Text="{Binding Description}"
+                                                             Command="{Binding OpenTaskCommand}"
+                                                             CommandParameter="{Binding}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <ItemsControl Grid.Column="3"
-                                      ItemsSource="{Binding CompletedTasks}">
+                                      ItemsSource="{Binding CompletedTasks}"
+                                      Tag="Complete">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel AllowDrop="True"
@@ -96,7 +115,9 @@
                                 <DataTemplate>
                                     <control:WorkItemControl Header="{Binding Name}"
                                                              Style="{StaticResource Task}"
-                                                             Text="{Binding Description}"/>
+                                                             Text="{Binding Description}"
+                                                             Command="{Binding OpenTaskCommand}"
+                                                             CommandParameter="{Binding}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -104,8 +125,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <TextBlock Text="Task Board"
-                   Background="White"
-                   Grid.Row="1"/>
     </Grid>
 </UserControl>
