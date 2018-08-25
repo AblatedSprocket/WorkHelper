@@ -10,10 +10,10 @@
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
         <work:TaskBoardView/>
-        <!--<control:WorkItemControl x:Name="workItem" Height="147" Accent="Pink"
-                                 Header="{Binding RandomTask.Name}"
+        <control:WorkItemControl x:Name="workItem" Height="147" Accent="Pink"
+                                 Header="Header!"
                                  Text="{Binding RandomTask.Description}"
-                                 Command="{Binding DoCommand}"
-                                 CommandParameter="{Binding RandomTask}"/>-->
+                                 Command="{Binding OpenTaskCommand}"
+                                 CommandParameter="{Binding RandomTask}"/>
     </StackPanel>
 </Window>

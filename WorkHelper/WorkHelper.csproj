@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="TaskBoard\TaskMovedEventArgs.cs" />
     <Compile Include="Utilities\DragAdorner.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -8,16 +8,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type control:WorkItemControl}">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="ControlArea"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Height="{TemplateBinding Height}"
-                            Width="{TemplateBinding Width}">
+                            Width="{TemplateBinding Width}"
+                            Margin="5">
                         <Border BorderBrush="{TemplateBinding Accent}"
                                 BorderThickness="8,0,0,0">
-                            <Grid HorizontalAlignment="Left"
+                            <Grid HorizontalAlignment="Stretch"
                                   VerticalAlignment="Top">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
@@ -28,7 +31,7 @@
                                            TextWrapping="Wrap">
                                     <TextBlock.InputBindings>
                                     </TextBlock.InputBindings>
-                                    <Hyperlink x:Name="HeaderLink">
+                                    <Hyperlink x:Name="ExpandControl">
                                         <!--<Hyperlink.InputBindings>
                                         <MouseBinding Gesture="LeftClick"
                                                       Command="{TemplateBinding Command}"
@@ -43,6 +46,13 @@
                                            Margin="5,0,8,0"
                                            Text="{TemplateBinding Text}"
                                            TextWrapping="Wrap"/>
+                                <TextBox x:Name="HoursControl"
+                                          Grid.Row="2"
+                                          HorizontalAlignment="Right"
+                                          Margin="0,3,15,5"
+                                          Text="{TemplateBinding Hours}"
+                                          Width="35">
+                                </TextBox>
                             </Grid>
                         </Border>
                     </Border>

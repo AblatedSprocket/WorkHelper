@@ -15,7 +15,7 @@ namespace WorkHelper.Models
         private string _name;
         private string _description;
         private Status _status;
-        private double _hoursEstimated;
+        private string _hoursEstimated;
         private double _hoursRequired;
         private DateTime _startDate;
         private DateTime _completedDate;
@@ -39,7 +39,7 @@ namespace WorkHelper.Models
             get { return _status; }
             set { OnPropertyChanged(ref _status, value); }
         }
-        public double HoursEstimated
+        public string HoursEstimated
         {
             get { return _hoursEstimated; }
             set { OnPropertyChanged(ref _hoursEstimated, value); }

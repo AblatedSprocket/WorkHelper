@@ -21,7 +21,6 @@ namespace WorkHelper.TaskBoard
     {
         private Point _startPoint;
         private DragAdorner _adorner;
-        
         public TaskBoardView()
         {
             InitializeComponent();
@@ -52,16 +51,16 @@ namespace WorkHelper.TaskBoard
                 }
             }
         }
-        private void TaskItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void TaskItem_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
             if (_adorner != null)
             {
                 Point pos = PointFromScreen(GetMousePosition());
                 _adorner.UpdatePosition(pos);
+            }
+            else
+            {
+                e.Handled = false;
             }
         }
         private void TaskItem_MouseUp(object sender, MouseButtonEventArgs e)
@@ -74,14 +73,19 @@ namespace WorkHelper.TaskBoard
         }
         private void TaskItem_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            bool canMove = false;
+            if (sender is WorkItemControl control)
             {
-                UIElement source = sender as UIElement;
+                canMove = control.CanMove;
+            }
+            Point currentPosition = e.GetPosition(this);
+            Vector diff = _startPoint - currentPosition;
+            if (e.LeftButton == MouseButtonState.Pressed && canMove && sender is FrameworkElement source && source.DataContext is Task)
+            {
                 DataObject data = new DataObject();
                 data.SetData("Object", source);
 
                 WorkItemControl workItem = sender as WorkItemControl;
-                Point currentPosition = e.GetPosition(this);
                 _adorner = new DragAdorner(workItem, currentPosition);
                 AdornerLayer.GetAdornerLayer(workItem).Add(_adorner);
                 DragDrop.DoDragDrop(source, data, DragDropEffects.Move);

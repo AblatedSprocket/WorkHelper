@@ -28,7 +28,8 @@ namespace WorkHelper.UI.Test
                     new Task
                     {
                         Name ="First Task",
-                        Description = "First description"
+                        Description = "First description",
+                        HoursEstimated = "4"
                     },
                     new Task
                     {

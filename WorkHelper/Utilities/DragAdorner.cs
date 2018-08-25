@@ -13,6 +13,7 @@ namespace WorkHelper.Utilities
         {
             _offset = offset;
             _visualBrush = new VisualBrush(AdornedElement);
+            _visualBrush.Opacity = 0.5;
             IsHitTestVisible = false;
         }
         public void UpdatePosition(Point location)
